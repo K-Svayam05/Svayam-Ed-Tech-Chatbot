@@ -51,11 +51,11 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen p-4 bg-gradient-to-b from-blue-50 to-indigo-100">
-      <Card className="w-full max-w-md shadow-lg">
+    <div className="flex justify-center items-center min-h-screen p-4 bg-gradient-to-b from-lightgray to-white">
+      <Card className="w-full max-w-md shadow-lg border-t-4 border-t-primary">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-3xl font-bold text-primary">Welcome back</CardTitle>
-          <CardDescription>
+          <CardDescription className="text-slate-600">
             Sign in to continue with EduChat
           </CardDescription>
         </CardHeader>
@@ -71,6 +71,7 @@ const Login = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                className="input-focus"
               />
             </div>
             
@@ -89,12 +90,13 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                className="input-focus"
               />
             </div>
             
             <Button 
               type="submit" 
-              className="w-full"
+              className="w-full interactive-button"
               disabled={isLoading}
             >
               {isLoading ? "Signing in..." : "Sign In"}
@@ -104,7 +106,7 @@ const Login = () => {
         <CardFooter className="flex justify-center">
           <p className="text-sm text-muted-foreground">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-primary hover:underline">
+            <Link to="/signup" className="text-primary hover:underline font-medium">
               Sign up
             </Link>
           </p>

@@ -53,6 +53,8 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				navy: '#0A2647',
+				lightgray: '#F1F1F1',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -60,7 +62,7 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			keyframes: {
-				'accordion-down': {
+				"accordion-down": {
 					from: {
 						height: '0'
 					},
@@ -68,18 +70,36 @@ export default {
 						height: 'var(--radix-accordion-content-height)'
 					}
 				},
-				'accordion-up': {
+				"accordion-up": {
 					from: {
 						height: 'var(--radix-accordion-content-height)'
 					},
 					to: {
 						height: '0'
 					}
+				},
+				"bounce-horizontal": {
+					"0%, 100%": { 
+						transform: "translateX(0)"
+					},
+					"50%": {
+						transform: "translateX(10px)" 
+					}
+				},
+				"pulse-light": {
+					"0%, 100%": {
+						opacity: "1"
+					},
+					"50%": {
+						opacity: "0.7"
+					}
 				}
 			},
 			animation: {
-				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				"accordion-down": 'accordion-down 0.2s ease-out',
+				"accordion-up": 'accordion-up 0.2s ease-out',
+				"bounce-horizontal": "bounce-horizontal 1s ease-in-out infinite",
+				"pulse-light": "pulse-light 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
 			}
 		}
 	},

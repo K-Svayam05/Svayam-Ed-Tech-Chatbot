@@ -14,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 221 83% 53%;
+    --primary: 222 47% 16%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -23,7 +23,7 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 250 95% 76%;
+    --accent: 222 47% 26%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -31,7 +31,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 221 83% 53%;
+    --ring: 222 47% 16%;
 
     --radius: 0.5rem;
   }
@@ -61,4 +61,31 @@
 
 .animate-fade-in {
   animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+/* Improved interactive elements */
+@layer components {
+  .chat-bubble {
+    @apply relative rounded-2xl px-4 py-3 transition-all duration-200;
+  }
+  
+  .chat-bubble-user {
+    @apply bg-primary text-white rounded-br-none;
+  }
+  
+  .chat-bubble-bot {
+    @apply bg-secondary text-foreground rounded-bl-none;
+  }
+  
+  .chat-bubble-error {
+    @apply bg-destructive/10 text-destructive rounded-bl-none;
+  }
+  
+  .interactive-button {
+    @apply transition-transform duration-300 hover:scale-105 active:scale-95;
+  }
+
+  .input-focus {
+    @apply focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-all duration-200;
+  }
 }
