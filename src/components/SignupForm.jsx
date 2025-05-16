@@ -1,23 +1,28 @@
 
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/sonner";
+import { Link } from 'react-router-dom';
 
 const SignupForm = ({ onSignupSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
+    email: '',
+    password: '',
     age: '',
     gender: '',
     country: '',
     education_level: '',
     education_details: ''
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,7 +42,7 @@ const SignupForm = ({ onSignupSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.age || !formData.gender || !formData.country || !formData.education_level) {
+    if (!formData.name || !formData.email || !formData.password || !formData.age || !formData.gender || !formData.country || !formData.education_level) {
       toast("Please fill in all required fields");
       return;
     }
@@ -67,6 +72,9 @@ const SignupForm = ({ onSignupSuccess }) => {
       if (onSignupSuccess) {
         onSignupSuccess(response.data.userId);
       }
+      
+      // Navigate to chat page
+      navigate('/chat');
     } catch (error) {
       console.error('Signup error:', error);
       toast(`Signup failed: ${error.response?.data?.message || error.message}`);
@@ -96,6 +104,32 @@ const SignupForm = ({ onSignupSuccess }) => {
                 name="name"
                 placeholder="Enter your full name"
                 value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Create a password"
+                value={formData.password}
                 onChange={handleChange}
                 required
               />
@@ -195,8 +229,13 @@ const SignupForm = ({ onSignupSuccess }) => {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="flex justify-center text-sm text-muted-foreground">
-          By signing up, you agree to our Terms of Service and Privacy Policy
+        <CardFooter className="flex justify-center">
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <Link to="/login" className="text-primary hover:underline">
+              Sign in
+            </Link>
+          </p>
         </CardFooter>
       </Card>
     </div>
