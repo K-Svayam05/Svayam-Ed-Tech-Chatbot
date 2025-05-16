@@ -34,11 +34,11 @@ const Login = () => {
 
     try {
       setIsLoading(true);
-      // In a real app, this would be an actual API endpoint
-      const response = await axios.post("/api/login", formData);
       
-      // Store the user ID in local storage
-      localStorage.setItem("userId", response.data.userId);
+      // For demonstration purposes, accept any login
+      // In a real app, this would validate against an actual API
+      const userId = "demo-user-123"; // Simulated user ID
+      localStorage.setItem("userId", userId);
       
       toast("Login successful!");
       navigate("/chat");
