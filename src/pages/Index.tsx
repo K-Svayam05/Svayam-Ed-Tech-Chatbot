@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -16,7 +15,7 @@ const Index = () => {
           </div>
           <div className="space-x-4">
             <Link to="/login">
-              <Button variant="outline" className="text-white border-white hover:bg-white/10">Log In</Button>
+              <Button variant="navy" className="bg-white hover:bg-navy hover:text-white">Log In</Button>
             </Link>
             <Link to="/signup">
               <Button className="bg-primary hover:bg-primary/90">Sign Up</Button>
@@ -46,7 +45,7 @@ const Index = () => {
                 </Button>
               </Link>
               <Link to="/learn-more">
-                <Button size="lg" variant="outline" className="px-8 py-6 text-lg text-white border-white hover:bg-white/10">
+                <Button size="lg" variant="navy" className="px-8 py-6 text-lg bg-white">
                   Learn More
                 </Button>
               </Link>
