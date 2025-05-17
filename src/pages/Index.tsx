@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import SvayamLogo from "@/components/SvayamLogo";
 
 const Index = () => {
   return (
@@ -10,7 +11,7 @@ const Index = () => {
       <div className="container mx-auto px-4 py-6 flex flex-col items-center">
         <header className="w-full flex justify-between items-center mb-8">
           <div className="flex items-center space-x-2">
-            <img src="/favicon.svg" alt="Svayam Logo" className="h-10 w-10" />
+            <SvayamLogo size="sm" />
             <h1 className="text-2xl font-bold text-white">Svayam</h1>
           </div>
           <div className="space-x-4">
@@ -26,6 +27,9 @@ const Index = () => {
         <main className="w-full">
           {/* Hero Section */}
           <section className="mb-24 py-16 text-center">
+            <div className="flex justify-center mb-8">
+              <SvayamLogo size="lg" />
+            </div>
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
               Unlock Your Learning Potential
             </h2>
@@ -156,8 +160,8 @@ const Index = () => {
 
         <footer className="w-full max-w-6xl text-center text-gray-400 pb-8 mt-12">
           <div className="flex items-center justify-center mb-4 space-x-2">
-            <img src="/favicon.svg" alt="Svayam Logo" className="h-6 w-6" />
-            <p className="text-sm">Svayam - Learn from Svayam!</p>
+            <SvayamLogo size="sm" />
+            <p className="text-sm">Svayam - Khud se Seekho!</p>
           </div>
           <p className="text-xs">© {new Date().getFullYear()} Svayam - Khud se Seekho!</p>
         </footer>
