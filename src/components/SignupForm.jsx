@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -23,6 +22,13 @@ const SignupForm = ({ onSignupSuccess }) => {
     education_details: ''
   });
   const navigate = useNavigate();
+
+  const educationLevels = [
+    { label: 'Primary (1-8)', value: 'primary' },
+    { label: 'Secondary (9-10)', value: 'secondary' },
+    { label: 'Higher Secondary (11-12)', value: 'higher_secondary' },
+    { label: 'College', value: 'college' },
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,7 +67,7 @@ const SignupForm = ({ onSignupSuccess }) => {
 
     try {
       setIsLoading(true);
-      const response = await axios.post('/api/signup', formData);
+      const response = await axios.post('http://localhost:5000/api/register', formData);
       
       // Store the user ID in local storage
       localStorage.setItem('userId', response.data.userId);
@@ -191,11 +197,9 @@ const SignupForm = ({ onSignupSuccess }) => {
                   <SelectValue placeholder="Select your education level" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Lower Primary (1-5)">Lower Primary (1-5)</SelectItem>
-                  <SelectItem value="Upper Primary (6-8)">Upper Primary (6-8)</SelectItem>
-                  <SelectItem value="High School (9-12)">High School (9-12)</SelectItem>
-                  <SelectItem value="College Student">College Student</SelectItem>
-                  <SelectItem value="Working Professional">Working Professional</SelectItem>
+                  {educationLevels.map((level) => (
+                    <SelectItem key={level.value} value={level.value}>{level.label}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

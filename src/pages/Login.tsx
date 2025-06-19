@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -34,17 +33,16 @@ const Login = () => {
 
     try {
       setIsLoading(true);
-      
-      // For demonstration purposes, accept any login
-      // In a real app, this would validate against an actual API
-      const userId = "demo-user-123"; // Simulated user ID
-      localStorage.setItem("userId", userId);
-      
+      // Send login request to backend
+      const response = await axios.post("http://localhost:5000/api/login", formData);
+      const { token, user } = response.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", user.id);
       toast("Login successful!");
       navigate("/chat");
     } catch (error) {
       console.error("Login error:", error);
-      toast(`Login failed: ${error.response?.data?.message || error.message}`);
+      toast(`Login failed: ${error.response?.data?.error || error.message}`);
     } finally {
       setIsLoading(false);
     }
