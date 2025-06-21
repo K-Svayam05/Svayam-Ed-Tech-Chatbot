@@ -32,6 +32,10 @@ const App = () => {
     return isAuthenticated ? children : <Navigate to="/login" />;
   };
 
+  if (isLoading) {
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
