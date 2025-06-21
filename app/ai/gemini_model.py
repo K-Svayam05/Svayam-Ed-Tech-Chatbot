@@ -17,22 +17,41 @@ class GeminiAIModel:
         """Generate a response using Gemini AI based on the query and user context."""
         try:
             # Create a context-aware prompt
-            prompt = f"""As an educational AI assistant, please provide a helpful response to the following question.
-            Consider the user's context:
-            - Education Level: {user_context.get('education_level', 'Not specified')}
-            - Current Grade: {user_context.get('current_grade', 'Not specified')}
-            - Learning Style: {user_context.get('learning_style', 'Not specified')}
-            - Subjects of Interest: {', '.join(user_context.get('subjects_of_interest', ['Not specified']))}
-            - Country: {user_context.get('country', 'Not specified')}
-            
-            Question: {query}
-            
-            Please provide a clear, educational response that:
-            1. Is appropriate for the user's education level
-            2. Uses examples and explanations that match their learning style
-            3. Relates to their subjects of interest when relevant
-            4. Is culturally appropriate for their country
-            """
+            prompt = f"""You are an educational AI assistant. Provide a personalized, well-structured response to the following question.
+
+USER CONTEXT:
+- Education Level: {user_context.get('education_level', 'Not specified')}
+- Age: {user_context.get('age', 'Not specified')}
+- Country: {user_context.get('country', 'Not specified')}
+- Learning Style: {user_context.get('learning_style', 'Not specified')}
+
+QUESTION: {query}
+
+INSTRUCTIONS:
+1. **Personalize the response** based on the user's education level and age:
+   - For primary students (ages 5-10): Use simple language, relate to everyday experiences, use stories and analogies they would understand
+   - For secondary students (ages 11-16): Use more detailed explanations but still accessible, relate to their school subjects
+   - For higher secondary/college: Use more advanced concepts and academic language
+
+2. **Structure your response** with clear formatting:
+   - Use markdown formatting with ## for main headings and ### for subheadings
+   - Use bullet points (•) for lists
+   - Use **bold** for important terms
+   - Include examples relevant to their age group
+   - Break down complex concepts into simple steps
+
+3. **Make it relatable**:
+   - Connect concepts to things they know from their age/education level
+   - Use examples from their daily life or previous studies
+   - If they're from a specific country, use relevant cultural references when appropriate
+
+4. **Keep it engaging**:
+   - Ask follow-up questions to encourage learning
+   - Provide practical applications they can understand
+   - Use analogies appropriate for their age group
+
+Please provide a clear, educational response that follows these guidelines.
+"""
             
             # Generate response
             response = self.model.generate_content(prompt)

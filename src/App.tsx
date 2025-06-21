@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -22,7 +21,8 @@ const App = () => {
   useEffect(() => {
     // Check if user is already logged in
     const storedUserId = localStorage.getItem('userId');
-    setIsAuthenticated(!!storedUserId);
+    const storedToken = localStorage.getItem('token');
+    setIsAuthenticated(!!storedUserId && !!storedToken);
     setIsLoading(false);
   }, []);
 

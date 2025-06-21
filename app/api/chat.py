@@ -43,6 +43,7 @@ def chat(user):
         # Prepare user context
         user_context = {
             'education_level': user.education_level,
+            'age': user.age,
             'current_grade': user.current_grade,
             'learning_style': user.learning_style,
             'subjects_of_interest': user.subjects_of_interest or [],
@@ -79,5 +80,10 @@ def chat(user):
 @bp.route('/chat/history', methods=['GET'])
 @token_required
 def get_chat_history(user):
-    history = ChatHistory.query.filter_by(user_id=user.id).order_by(ChatHistory.timestamp.desc()).all()
+    limit = request.args.get('limit', default=None, type=int)
+    query = ChatHistory.query.filter_by(user_id=user.id).order_by(ChatHistory.timestamp.desc())
+    if limit:
+        history = query.limit(limit).all()
+    else:
+        history = query.all()
     return jsonify([chat.to_dict() for chat in history]) 
