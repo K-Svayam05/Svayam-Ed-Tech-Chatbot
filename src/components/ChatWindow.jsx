@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, User, MessageSquare, LogOut, History } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
+import { useNavigate } from 'react-router-dom';
 
 const ChatWindow = ({ onSignOut }) => {
   const [message, setMessage] = useState('');
@@ -18,6 +19,7 @@ const ChatWindow = ({ onSignOut }) => {
   const scrollAreaRef = useRef(null);
   const inputRef = useRef(null);
   const userId = localStorage.getItem('userId');
+  const navigate = useNavigate();
   
   useEffect(() => {
     // Focus input on load
@@ -129,10 +131,12 @@ const ChatWindow = ({ onSignOut }) => {
 
   const handleSignOut = () => {
     localStorage.removeItem('userId');
+    localStorage.removeItem('token');
     if (onSignOut) {
       onSignOut();
     }
     toast("You've been signed out successfully");
+    navigate('/');
   };
 
   const renderWelcomeMessage = () => {
