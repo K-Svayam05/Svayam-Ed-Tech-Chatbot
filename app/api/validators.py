@@ -29,7 +29,7 @@ def validate_registration_input(f):
             return jsonify({'error': 'Age must be a number'}), 400
         
         # Validate education level
-        valid_education_levels = ['primary', 'secondary', 'higher_secondary', 'college']
+        valid_education_levels = ['primary', 'secondary', 'higher_secondary', 'college', 'working_professional']
         if 'education_level' in data and data['education_level'] not in valid_education_levels:
             return jsonify({'error': f'Education level must be one of: {", ".join(valid_education_levels)}'}), 400
         

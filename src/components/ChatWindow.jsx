@@ -8,10 +8,46 @@ import { Send, User, MessageSquare, LogOut, History } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import { useNavigate } from 'react-router-dom';
 
+const getSampleQuestions = (educationLevel) => {
+  switch (educationLevel) {
+    case 'primary':
+      return [
+        "Why is the sky blue?",
+        "Help me with adding fractions.",
+        "Tell me a story about a historical figure.",
+        "What are the different states of matter?"
+      ];
+    case 'secondary':
+      return [
+        "Explain the process of photosynthesis.",
+        "What are Newton's laws of motion?",
+        "Help me solve a quadratic equation.",
+        "What is the significance of the Magna Carta?"
+      ];
+    case 'higher_secondary':
+    case 'college':
+    case 'working_professional':
+      return [
+        "Discuss the theory of relativity.",
+        "What are the main causes of inflation?",
+        "Explain the basics of machine learning.",
+        "What is the role of a neurotransmitter?"
+      ];
+    default:
+      return [
+        "Explain a complex topic simply.",
+        "Help me with a math problem.",
+        "Tell me something interesting.",
+        "Give me a writing prompt."
+      ];
+  }
+};
+
 const ChatWindow = ({ onSignOut }) => {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [recentChats, setRecentChats] = useState([]);
+  const [sampleQuestions, setSampleQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [showAll, setShowAll] = useState(false);
@@ -54,6 +90,29 @@ const ChatWindow = ({ onSignOut }) => {
       }
     };
     fetchRecentChats();
+  }, [userId]);
+
+  useEffect(() => {
+    // Fetch user profile and set sample questions
+    const fetchUserProfile = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+        
+        const res = await axios.get('http://localhost:5000/api/profile', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        const user = res.data;
+        setSampleQuestions(getSampleQuestions(user.education_level));
+        
+      } catch (err) {
+        console.error('Failed to load user profile:', err);
+        setSampleQuestions(getSampleQuestions(null)); // Set default questions on error
+      }
+    };
+
+    fetchUserProfile();
   }, [userId]);
 
   const handleSendMessage = async (e) => {
@@ -147,7 +206,7 @@ const ChatWindow = ({ onSignOut }) => {
           <p className="text-muted-foreground">I'm your educational assistant. How can I help you learn today?</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {["Tell me about photosynthesis", "Explain Newton's laws", "Help me with fractions", "What is a metaphor?"].map((suggestion, i) => (
+          {sampleQuestions.map((suggestion, i) => (
             <Button
               key={i}
               variant="outline"

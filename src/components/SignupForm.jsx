@@ -28,6 +28,7 @@ const SignupForm = ({ onSignupSuccess }) => {
     { label: 'Secondary (9-10)', value: 'secondary' },
     { label: 'Higher Secondary (11-12)', value: 'higher_secondary' },
     { label: 'College', value: 'college' },
+    { label: 'Working Professional', value: 'working_professional' },
   ];
 
   const handleChange = (e) => {
