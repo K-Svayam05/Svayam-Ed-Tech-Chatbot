@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { SvayamLogo } from "@/components/SvayamLogo";
+import SvayamLogo from "@/components/SvayamLogo";
 import { Star, Users, TrendingUp } from "lucide-react";
 
 const LearnMore = () => {
