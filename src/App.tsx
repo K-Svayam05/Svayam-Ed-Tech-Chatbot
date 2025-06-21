@@ -40,7 +40,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login onLoginSuccess={() => setIsAuthenticated(true)} />} />
             <Route path="/signup" element={<SignupForm onSignupSuccess={() => setIsAuthenticated(true)} />} />
             <Route path="/learn-more" element={<LearnMore />} />
             <Route 

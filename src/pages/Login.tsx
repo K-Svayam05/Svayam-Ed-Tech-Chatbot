@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/sonner";
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -39,6 +39,9 @@ const Login = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("userId", user.id);
       toast("Login successful!");
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
       navigate("/chat");
     } catch (error) {
       console.error("Login error:", error);
