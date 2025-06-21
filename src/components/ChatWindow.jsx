@@ -81,7 +81,7 @@ const ChatWindow = ({ onSignOut }) => {
           console.error('No token found');
           return;
         }
-        const res = await axios.get(`http://localhost:5000/api/chat/history?limit=5`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/chat/history?limit=5`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setRecentChats(res.data);
@@ -99,7 +99,7 @@ const ChatWindow = ({ onSignOut }) => {
         const token = localStorage.getItem('token');
         if (!token) return;
         
-        const res = await axios.get('http://localhost:5000/api/profile', {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -136,7 +136,7 @@ const ChatWindow = ({ onSignOut }) => {
       // Slight delay to show typing indicator (simulated response time)
       setTimeout(async () => {
         try {
-          const response = await axios.post('http://localhost:5000/api/chat', {
+          const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/chat`, {
             message: userMessage
           }, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
