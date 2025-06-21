@@ -1,15 +1,17 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { SvayamLogo } from "@/components/SvayamLogo";
+import { Star, Users, TrendingUp } from "lucide-react";
 
 const LearnMore = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-12">
         <header className="w-full flex justify-between items-center mb-16">
-          <Link to="/">
-            <h1 className="text-2xl font-bold text-primary">EduChat</h1>
-          </Link>
+          <div className="flex items-center space-x-2">
+            <SvayamLogo size="sm" />
+            <h1 className="text-2xl font-bold text-primary">Svayam</h1>
+          </div>
           <div className="space-x-4">
             <Link to="/login">
               <Button variant="outline">Log In</Button>
@@ -21,16 +23,16 @@ const LearnMore = () => {
         </header>
 
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12">Learn More About EduChat</h2>
+          <h2 className="text-4xl font-bold text-center mb-12">Learn More About Svayam</h2>
           
           <section className="bg-white rounded-lg p-8 shadow-md mb-8">
-            <h3 className="text-2xl font-semibold text-primary mb-4">What is EduChat?</h3>
+            <h3 className="text-2xl font-semibold text-primary mb-4">What is Svayam?</h3>
             <p className="text-gray-700 mb-4">
-              EduChat is an AI-powered educational assistant designed to help students of all ages and education levels. 
-              Whether you're in primary school or a working professional, EduChat adapts to your specific learning needs.
+              Svayam is an AI-powered educational assistant designed to help students of all ages and education levels. 
+              Whether you're in primary school or a working professional, Svayam adapts to your specific learning needs.
             </p>
             <p className="text-gray-700">
-              Our mission is to make education more accessible and personalized through conversational learning. Think of EduChat 
+              Our mission is to make education more accessible and personalized through conversational learning. Think of Svayam 
               as your personal tutor, available 24/7 to answer questions and explain concepts in a way that makes sense to you.
             </p>
           </section>
@@ -81,7 +83,7 @@ const LearnMore = () => {
           </section>
           
           <section className="bg-white rounded-lg p-8 shadow-md mb-12">
-            <h3 className="text-2xl font-semibold text-primary mb-4">Benefits of Using EduChat</h3>
+            <h3 className="text-2xl font-semibold text-primary mb-4">Benefits of Using Svayam</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
                 <div className="text-green-500 mr-2">✓</div>
@@ -101,7 +103,19 @@ const LearnMore = () => {
               </li>
               <li className="flex items-start">
                 <div className="text-green-500 mr-2">✓</div>
-                <p><span className="font-medium">Continuous improvement</span> - EduChat learns from interactions to better support your needs</p>
+                <p><span className="font-medium">Adaptive Learning</span> - Get explanations tailored to your age and education level</p>
+              </li>
+              <li className="flex items-start">
+                <div className="text-green-500 mr-2">✓</div>
+                <p><span className="font-medium">24/7 Availability</span> - Learn anytime, anywhere, at your own pace</p>
+              </li>
+              <li className="flex items-start">
+                <div className="text-green-500 mr-2">✓</div>
+                <p><span className="font-medium">Engaging Content</span> - Interactive and conversational learning keeps you motivated</p>
+              </li>
+              <li className="flex items-start">
+                <div className="text-green-500 mr-2">✓</div>
+                <p><span className="font-medium">Continuous improvement</span> - Svayam learns from interactions to better support your needs</p>
               </li>
             </ul>
           </section>
@@ -114,7 +128,7 @@ const LearnMore = () => {
         </div>
         
         <footer className="mt-24 w-full text-center text-gray-600 pb-8">
-          <p>© {new Date().getFullYear()} EduChat - Your Educational Assistant</p>
+          <p>© {new Date().getFullYear()} Svayam - Your Educational Assistant</p>
         </footer>
       </div>
     </div>

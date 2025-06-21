@@ -96,7 +96,7 @@ const SignupForm = ({ onSignupSuccess }) => {
     <div className="flex justify-center items-center min-h-screen p-4 bg-gradient-to-b from-blue-50 to-indigo-100">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-3xl font-bold text-primary">Join EduChat</CardTitle>
+          <CardTitle className="text-3xl font-bold text-primary">Join Svayam</CardTitle>
           <CardDescription>
             Sign up to start chatting with our educational assistant
           </CardDescription>

@@ -139,7 +139,7 @@ const ChatWindow = ({ onSignOut }) => {
     return (
       <div className="grid gap-6 py-8">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-primary mb-2">Welcome to EduChat!</h2>
+          <h2 className="text-2xl font-bold text-primary mb-2">Welcome to Svayam!</h2>
           <p className="text-muted-foreground">I'm your educational assistant. How can I help you learn today?</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -249,7 +249,7 @@ const ChatWindow = ({ onSignOut }) => {
           <CardHeader className="border-b bg-white">
             <CardTitle className="text-2xl font-bold text-primary flex items-center">
               <MessageSquare className="mr-2 h-6 w-6 text-primary" />
-              EduChat Assistant
+              Svayam Assistant
             </CardTitle>
           </CardHeader>
           
@@ -282,7 +282,7 @@ const ChatWindow = ({ onSignOut }) => {
                         </div>
                       ) : (
                         <div className="flex items-center gap-2 mb-1 text-xs opacity-80">
-                          <span>EduChat</span>
+                          <span>Svayam</span>
                         </div>
                       )}
                       <div className="break-words">

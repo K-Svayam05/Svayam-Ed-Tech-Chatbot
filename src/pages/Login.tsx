@@ -54,7 +54,7 @@ const Login = () => {
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-3xl font-bold text-primary">Welcome back</CardTitle>
           <CardDescription className="text-slate-600">
-            Sign in to continue with EduChat
+            Sign in to continue with Svayam
           </CardDescription>
         </CardHeader>
         <CardContent>
