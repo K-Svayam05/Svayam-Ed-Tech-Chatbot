@@ -68,7 +68,11 @@ const SignupForm = ({ onSignupSuccess }) => {
 
     try {
       setIsLoading(true);
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/register`, formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/register`, formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       
       // Store the user ID in local storage
       localStorage.setItem('userId', response.data.userId);
