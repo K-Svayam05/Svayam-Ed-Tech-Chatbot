@@ -19,6 +19,14 @@ def create_token(user_id):
 def register():
     data = request.get_json()
     
+    # Pre-process subjects_of_interest
+    if 'subjects_of_interest' in data and isinstance(data['subjects_of_interest'], str):
+        data['subjects_of_interest'] = [subject.strip() for subject in data['subjects_of_interest'].split(',')]
+
+    # Normalize gender input
+    if 'gender' in data and isinstance(data['gender'], str):
+        data['gender'] = data['gender'].lower()
+
     # Check if user already exists
     if User.query.filter_by(email=data['email']).first():
         return jsonify({'error': 'Email already registered'}), 400
@@ -31,10 +39,26 @@ def register():
         gender=data['gender'],
         country=data['country'],
         education_level=data['education_level'],
-        professional_category=data.get('professional_category')
     )
     user.set_password(data['password'])
+
+    # Add education-specific fields
+    if data['education_level'] in ['primary', 'secondary', 'higher_secondary', 'college']:
+        user.current_grade = data.get('current_grade')
+        user.school_board = data.get('school_board')
     
+    # Add professional-specific fields
+    if data['education_level'] == 'working_professional':
+        professional_category = data.get('education_details')
+        if professional_category:
+            user.professional_category = professional_category
+        user.field_of_work = data.get('field_of_work')
+
+    # Add common optional fields
+    user.subjects_of_interest = data.get('subjects_of_interest', [])
+    user.preferred_language = data.get('preferred_language')
+    user.learning_style = data.get('learning_style')
+
     db.session.add(user)
     db.session.commit()
     

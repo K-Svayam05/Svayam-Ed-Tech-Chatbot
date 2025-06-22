@@ -6,12 +6,13 @@ def validate_registration_input(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         data = request.get_json()
+        print(f"VALIDATOR RECEIVED DATA: {data}")
         
-        # Basic required fields
-        required_fields = ['name', 'email', 'password', 'age', 'gender', 'country']
+        # Basic required fields - check for presence and non-empty value
+        required_fields = ['name', 'email', 'password', 'age', 'gender', 'country', 'education_level']
         for field in required_fields:
-            if field not in data:
-                return jsonify({'error': f'Missing required field: {field}'}), 400
+            if field not in data or not data[field]:
+                return jsonify({'error': f'Missing or empty required field: {field}'}), 400
         
         # Validate email
         try:
@@ -30,24 +31,20 @@ def validate_registration_input(f):
         
         # Validate education level
         valid_education_levels = ['primary', 'secondary', 'higher_secondary', 'college', 'working_professional']
-        if 'education_level' in data and data['education_level'] not in valid_education_levels:
+        if data['education_level'] not in valid_education_levels:
             return jsonify({'error': f'Education level must be one of: {", ".join(valid_education_levels)}'}), 400
         
         # Validate learning style if provided
         valid_learning_styles = ['visual', 'auditory', 'reading/writing', 'kinesthetic']
-        if 'learning_style' in data and data['learning_style'] not in valid_learning_styles:
+        if 'learning_style' in data and data['learning_style'] and data['learning_style'] not in valid_learning_styles:
             return jsonify({'error': f'Learning style must be one of: {", ".join(valid_learning_styles)}'}), 400
         
-        # Validate subjects of interest if provided
-        if 'subjects_of_interest' in data:
-            if not isinstance(data['subjects_of_interest'], list):
-                return jsonify({'error': 'Subjects of interest must be a list'}), 400
-        
-        # Validate professional category if provided
-        if 'professional_category' in data:
+        # Validate professional category based on education_details from the form
+        if data['education_level'] == 'working_professional':
             valid_categories = ['<35', '36-50', '>50']
-            if data['professional_category'] not in valid_categories:
-                return jsonify({'error': f'Professional category must be one of: {", ".join(valid_categories)}'}), 400
+            education_details = data.get('education_details')
+            if not education_details or education_details not in valid_categories:
+                return jsonify({'error': f'For working professionals, experience level must be one of: {", ".join(valid_categories)}'}), 400
         
         return f(*args, **kwargs)
     return decorated
