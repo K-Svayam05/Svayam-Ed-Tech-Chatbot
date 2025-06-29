@@ -12,10 +12,11 @@
     }
   ],
   "routes": [
-  { "src": "/api/(.*)", "dest": "wsgi.py" },
-  { "src": "/assets/(.*)", "dest": "/assets/$1" },
-  { "src": "/favicon.ico", "dest": "/favicon.ico" },
-  { "src": "/robots.txt", "dest": "/robots.txt" },
-  { "src": "/(.*)", "dest": "/index.html" }
-]
+    { "src": "/api/(.*)", "dest": "wsgi.py" },
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/favicon.ico", "dest": "/favicon.ico" },
+    { "src": "/robots.txt", "dest": "/robots.txt" },
+    { "src": "/(.*\\.(js|css|png|jpg|svg|json|ico|txt))", "dest": "/$1" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
 } 
