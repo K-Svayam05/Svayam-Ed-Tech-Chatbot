@@ -6,7 +6,6 @@ def validate_registration_input(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         data = request.get_json()
-        print(f"VALIDATOR RECEIVED DATA: {data}")
         
         # Basic required fields - check for presence and non-empty value
         required_fields = ['name', 'email', 'password', 'age', 'gender', 'country', 'education_level']

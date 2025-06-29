@@ -71,3 +71,46 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+## Database Migration to Neon Postgres
+
+### 1. Set the DATABASE_URL environment variable
+
+For local development and deployment (e.g., Vercel), set the following environment variable:
+
+```
+DATABASE_URL=postgresql://neondb_owner:npg_YS3CWp5bKasy@ep-twilight-darkness-a4dfd89u-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require
+```
+
+- For local development, you can add this line to a `.env` file in the project root.
+- For Vercel, add this variable in the Vercel dashboard under Project Settings > Environment Variables.
+
+### 2. Migrate your local Postgres data to Neon
+
+**A. Dump your local database:**
+
+```
+pg_dump --dbname=postgresql://<local_user>:<local_password>@localhost/<local_db> --format=custom --file=local_db.dump
+```
+
+**B. Restore to Neon:**
+
+```
+pg_restore --no-owner --no-privileges --dbname="postgresql://neondb_owner:npg_YS3CWp5bKasy@ep-twilight-darkness-a4dfd89u-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require" local_db.dump
+```
+
+Replace `<local_user>`, `<local_password>`, and `<local_db>` with your local database credentials.
+
+### 3. Alembic Migrations
+
+Alembic is now configured to use the Neon DB. To run migrations:
+
+```
+flask db upgrade
+```
+
+or (if using Alembic directly):
+
+```
+alembic upgrade head
+```

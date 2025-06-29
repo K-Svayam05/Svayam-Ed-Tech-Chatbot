@@ -17,6 +17,7 @@ def create_app():
     
     # Configure Flask app
     app.config['SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'dev-key-change-this')
+    # Set DATABASE_URL to your Neon DB connection string for deployment/local development
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:postgres@localhost:5432/svayam_db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
