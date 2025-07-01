@@ -1,4 +1,4 @@
-# Svayam Ed-Tech Chatbot
+# Svayam Ed-Tech Chatbot - "Khud Se Seekho!"
 
 ## Overview
 
