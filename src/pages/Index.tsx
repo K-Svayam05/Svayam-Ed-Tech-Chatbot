@@ -1,24 +1,70 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, LogIn } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import SvayamLogo from "@/components/SvayamLogo";
+import { motion } from "framer-motion";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 to-navy">
+    <motion.div
+      className="min-h-screen bg-gradient-to-b from-slate-950 to-navy"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.7 }}
+    >
       <div className="container mx-auto px-4 py-6 flex flex-col items-center">
         <header className="w-full flex justify-between items-center mb-8">
           <div className="flex items-center space-x-2">
             <SvayamLogo size="sm" />
-            <h1 className="text-2xl font-bold text-white">Svayam</h1>
+            <motion.h1
+              className="text-2xl font-bold text-white"
+              initial={{ x: -40, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 80 }}
+            >
+              Svayam
+            </motion.h1>
           </div>
-          <div className="space-x-4">
+          <div className="flex flex-row gap-2 items-center">
             <Link to="/login">
-              <Button variant="navy" className="bg-white hover:bg-navy hover:text-white">Log In</Button>
+              <motion.div
+                whileHover={{ x: 4, boxShadow: "0 4px 24px 0 rgba(10,38,71,0.15)" }}
+                whileTap={{ scale: 0.96 }}
+                className=""
+              >
+                <Button
+                  variant="outline"
+                  className="rounded-full border-white/40 text-white bg-white/10 hover:bg-navy hover:text-white flex items-center gap-2 px-6 py-2 font-semibold shadow-none transition-all duration-300"
+                  style={{ borderWidth: 2 }}
+                >
+                  <LogIn className="w-4 h-4 mr-1 opacity-80" /> Log In
+                </Button>
+              </motion.div>
             </Link>
             <Link to="/signup">
-              <Button className="bg-primary hover:bg-primary/90">Sign Up</Button>
+              <motion.div
+                animate={{
+                  boxShadow: [
+                    "0 0 0 0 rgba(99,102,241,0.7)",
+                    // "0 0 16px 4px rgba(99,102,241,0.4)",
+                    "0 0 0 0 rgba(99,102,241,0.7)"
+                  ]
+                }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.96 }}
+                className=""
+              >
+                <Button
+                  className="rounded-full border-2 border-sky-400 text-sky-400 bg-transparent font-bold px-8 py-2 shadow-none hover:bg-sky-50 hover:text-blue-700 focus:ring-2 focus:ring-sky-400/60 transition-all duration-300"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    Sign Up <ArrowRight className="w-4 h-4 ml-1" />
+                  </span>
+                </Button>
+              </motion.div>
             </Link>
           </div>
         </header>
@@ -26,34 +72,69 @@ const Index = () => {
         <main className="w-full">
           {/* Hero Section */}
           <section className="mb-24 py-16 text-center">
-            <div className="flex justify-center mb-8">
+            <motion.div
+              className="flex justify-center mb-8"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.3, type: "spring", stiffness: 60 }}
+            >
               <SvayamLogo size="lg" />
-            </div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
+            </motion.div>
+            <motion.h2
+              className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight"
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4, type: "spring", stiffness: 60 }}
+            >
               Unlock Your Learning Potential
-            </h2>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-8">
+            </motion.h2>
+            <motion.p
+              className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-8"
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5, type: "spring", stiffness: 60 }}
+            >
               A Chatbot That Understands You
-            </p>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-12">
+            </motion.p>
+            <motion.p
+              className="text-lg text-gray-400 max-w-2xl mx-auto mb-12"
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.6, type: "spring", stiffness: 60 }}
+            >
               Experience education tailored to your unique background and how you learn best.
-            </p>
-            <div className="flex flex-col md:flex-row justify-center gap-4">
+            </motion.p>
+            <motion.div
+              className="flex flex-col md:flex-row justify-center gap-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+            >
               <Link to="/signup">
-                <Button size="lg" className="px-8 py-6 text-lg flex items-center">
-                  Sign Up Now <ArrowRight className="ml-2" />
-                </Button>
+                <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.96 }}>
+                  <Button size="lg" className="px-8 py-6 text-lg flex items-center">
+                    Sign Up Now <ArrowRight className="ml-2" />
+                  </Button>
+                </motion.div>
               </Link>
               <Link to="/learn-more">
-                <Button size="lg" variant="navy" className="px-8 py-6 text-lg bg-white">
-                  Learn More
-                </Button>
+                <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.96 }}>
+                  <Button size="lg" variant="navy" className="px-8 py-6 text-lg bg-white">
+                    Learn More
+                  </Button>
+                </motion.div>
               </Link>
-            </div>
+            </motion.div>
           </section>
 
-          {/* Chat Demo */}
-          <section className="mb-24">
+          {/* Chat Demo with fade-in animation */}
+          <motion.section
+            className="mb-24"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.7 }}
+          >
             <div className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 shadow-xl max-w-4xl mx-auto">
               <div className="space-y-6">
                 <div className="bg-primary/20 rounded-lg p-4 border-l-4 border-primary animate-fade-in">
@@ -74,7 +155,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-          </section>
+          </motion.section>
 
           {/* Content Sections */}
           <section className="mb-20">
@@ -165,7 +246,7 @@ const Index = () => {
           <p className="text-xs">© {new Date().getFullYear()} Svayam - Khud se Seekho!</p>
         </footer>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

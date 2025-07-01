@@ -56,6 +56,7 @@ const ChatWindow = ({ onSignOut }) => {
   const inputRef = useRef(null);
   const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
+  const [streamingBotMessage, setStreamingBotMessage] = useState("");
   
   useEffect(() => {
     // Focus input on load
@@ -63,14 +64,14 @@ const ChatWindow = ({ onSignOut }) => {
       inputRef.current.focus();
     }
     
-    // Scroll to bottom whenever chat history updates
+    // Scroll to bottom whenever chat history or streaming message updates
     if (scrollAreaRef.current) {
       const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
       if (scrollContainer) {
         scrollContainer.scrollTop = scrollContainer.scrollHeight;
       }
     }
-  }, [chatHistory]);
+  }, [chatHistory, streamingBotMessage]);
 
   useEffect(() => {
     // Fetch last 5 chats for the user in sidebar
@@ -132,6 +133,7 @@ const ChatWindow = ({ onSignOut }) => {
     try {
       setIsLoading(true);
       setIsTyping(true);
+      setStreamingBotMessage("");
       
       // Slight delay to show typing indicator (simulated response time)
       setTimeout(async () => {
@@ -145,20 +147,28 @@ const ChatWindow = ({ onSignOut }) => {
           
           setIsTyping(false);
           
-          // Add bot response to chat
-          setChatHistory(prev => [
-            ...prev,
-            { 
-              sender: 'bot', 
-              text: response.data.response || "Sorry, I couldn't process that request.", 
-              timestamp: new Date().toISOString() 
+          // Streaming effect (character by character)
+          const answer = response.data.response || "Sorry, I couldn't process that request.";
+          let i = 0;
+          setStreamingBotMessage("");
+          const streamInterval = setInterval(() => {
+            i++;
+            setStreamingBotMessage(answer.slice(0, i));
+            if (i >= answer.length) {
+              clearInterval(streamInterval);
+              setChatHistory(prev => [
+                ...prev,
+                { sender: 'bot', text: answer, timestamp: new Date().toISOString() }
+              ]);
+              setStreamingBotMessage("");
             }
-          ]);
+          }, 12); // ~80 chars/sec
         } catch (error) {
           console.error('Chat error:', error);
           toast(`Error sending message: ${error.response?.data?.message || error.message}`);
           
           setIsTyping(false);
+          setStreamingBotMessage("");
           
           // Add error message to chat
           setChatHistory(prev => [
@@ -179,6 +189,7 @@ const ChatWindow = ({ onSignOut }) => {
       console.error('Chat error:', error);
       setIsTyping(false);
       setIsLoading(false);
+      setStreamingBotMessage("");
     }
   };
 
@@ -231,32 +242,78 @@ const ChatWindow = ({ onSignOut }) => {
   };
 
   const renderMessage = (text) => {
-    // Simple markdown rendering
-    return text
-      .split('\n')
-      .map((line, index) => {
-        // Handle headings
-        if (line.startsWith('## ')) {
-          return <h2 key={index} className="text-xl font-bold text-primary mt-4 mb-2">{line.substring(3)}</h2>;
-        }
-        if (line.startsWith('### ')) {
-          return <h3 key={index} className="text-lg font-semibold text-gray-800 mt-3 mb-1">{line.substring(4)}</h3>;
-        }
-        // Handle bullet points
-        if (line.trim().startsWith('• ')) {
-          return <li key={index} className="ml-4">{line.substring(2)}</li>;
-        }
-        // Handle bold text
-        const boldText = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        if (boldText !== line) {
-          return <p key={index} className="mb-2" dangerouslySetInnerHTML={{ __html: boldText }} />;
-        }
-        // Regular text
-        if (line.trim() === '') {
-          return <br key={index} />;
-        }
-        return <p key={index} className="mb-2">{line}</p>;
-      });
+    // Improved markdown rendering with images and diagrams
+    const lines = text.split('\n');
+    const elements = [];
+    let diagramBlock = false;
+    let diagramContent = [];
+    lines.forEach((line, index) => {
+      // Diagram block start
+      if (line.trim().startsWith('[diagram]')) {
+        diagramBlock = true;
+        diagramContent = [];
+        return;
+      }
+      // Diagram block end
+      if (diagramBlock && line.trim().startsWith('[/diagram]')) {
+        diagramBlock = false;
+        // Render a placeholder SVG for now
+        elements.push(
+          <div key={`diagram-${index}`} className="my-4 flex justify-center">
+            <svg width="180" height="100" className="rounded-lg shadow" style={{background:'#0a2647'}}>
+              <rect x="10" y="20" width="160" height="60" rx="12" fill="#38bdf8" />
+              <text x="50%" y="55%" textAnchor="middle" fill="#fff" fontSize="16" fontWeight="bold" dy=".3em">Diagram</text>
+            </svg>
+          </div>
+        );
+        diagramContent = [];
+        return;
+      }
+      if (diagramBlock) {
+        diagramContent.push(line);
+        return;
+      }
+      // Markdown image ![alt](url)
+      const imgMatch = line.match(/!\[(.*?)\]\((.*?)\)/);
+      if (imgMatch) {
+        elements.push(
+          <div key={`img-${index}`} className="my-4 flex justify-center">
+            <img src={imgMatch[2]} alt={imgMatch[1]} className="rounded-lg shadow max-h-60" />
+          </div>
+        );
+        return;
+      }
+      // Headings
+      if (line.startsWith('## ')) {
+        elements.push(<h2 key={index} className="text-2xl font-bold text-sky-200 mt-4 mb-2">{line.substring(3)}</h2>);
+        return;
+      }
+      if (line.startsWith('### ')) {
+        elements.push(<h3 key={index} className="text-lg font-semibold text-sky-300 mt-3 mb-1">{line.substring(4)}</h3>);
+        return;
+      }
+      // Bullet points (remove asterisks or •)
+      if (/^\s*([*•-])\s+/.test(line)) {
+        elements.push(<li key={index} className="ml-6 list-disc text-base text-sky-100">{line.replace(/^\s*([*•-])\s+/, '')}</li>);
+        return;
+      }
+      // Bold (**text**)
+      let html = line
+        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-sky-100">$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em class="text-sky-300">$1</em>');
+      if (html !== line) {
+        elements.push(<p key={index} className="mb-2" dangerouslySetInnerHTML={{ __html: html }} />);
+        return;
+      }
+      // Empty line
+      if (line.trim() === '') {
+        elements.push(<br key={index} />);
+        return;
+      }
+      // Regular text
+      elements.push(<p key={index} className="mb-2 text-sky-100">{line}</p>);
+    });
+    return elements;
   };
 
   return (
@@ -349,14 +406,27 @@ const ChatWindow = ({ onSignOut }) => {
                           <span>Svayam</span>
                         </div>
                       )}
-                      <div className="break-words">
+                      <div className={`break-words ${chat.sender === 'bot' ? 'text-lg leading-relaxed text-sky-100 bg-navy rounded-xl p-3' : ''}`}>
                         {renderMessage(chat.text)}
                       </div>
                     </div>
                   </div>
                 ))
               )}
-              {isTyping && (
+              {/* Streaming bot message */}
+              {streamingBotMessage && (
+                <div className="flex justify-start animate-fade-in">
+                  <div className="max-w-[80%] chat-bubble chat-bubble-bot">
+                    <div className="flex items-center gap-2 mb-1 text-xs opacity-80">
+                      <span>Svayam</span>
+                    </div>
+                    <div className="break-words text-lg leading-relaxed text-sky-100 bg-navy rounded-xl p-3">
+                      {renderMessage(streamingBotMessage)}
+                    </div>
+                  </div>
+                </div>
+              )}
+              {isTyping && !streamingBotMessage && (
                 <div className="flex justify-start animate-fade-in">
                   <div className="max-w-[80%] chat-bubble chat-bubble-bot">
                     <div className="flex items-center gap-2">
