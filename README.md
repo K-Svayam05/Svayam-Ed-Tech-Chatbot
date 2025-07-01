@@ -1,116 +1,118 @@
-# Welcome to your Lovable project
+# Svayam Ed-Tech Chatbot
 
-## Project info
+## Overview
 
-**URL**: https://lovable.dev/projects/c4a9cdc7-0953-4e4e-b4e3-df96ea3bde75
+**Svayam** is an AI-powered educational chatbot designed to deliver personalized learning experiences. By understanding your educational background, learning style, and country-specific curriculum, Svayam provides tailored explanations and guidance, making complex concepts accessible and relatable. Whether you're a student or a lifelong learner, Svayam adapts to your needs, helping you build knowledge efficiently and effectively.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- **Personalized Explanations:** Answers are tailored to your education level, age, and country.
+- **Context-Aware Responses:** The chatbot connects new concepts to what you already know.
+- **Support for Multiple Learning Styles:** Visual, auditory, reading/writing, and kinesthetic preferences.
+- **Cultural Relevance:** Uses examples and analogies relevant to your background.
+- **Chat History:** Stores your previous questions and answers for easy reference.
+- **Rate Limiting:** Prevents spam and ensures fair usage.
+- **Secure Authentication:** JWT-based user authentication.
 
-**Use Lovable**
+## Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c4a9cdc7-0953-4e4e-b4e3-df96ea3bde75) and start prompting.
+- **Frontend:** React, TypeScript, Vite, shadcn-ui, Tailwind CSS
+- **Backend:** Flask, Flask-SQLAlchemy, Flask-Migrate, Flask-CORS
+- **AI Model:** Google Gemini Generative AI
+- **Database:** PostgreSQL (NeonDB recommended)
+- **Deployment:** Vercel (static + Python serverless)
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
+### Prerequisites
+- Node.js & npm
+- Python 3.8+
+- PostgreSQL (local or NeonDB)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
+### 1. Clone the Repository
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
 git clone <YOUR_GIT_URL>
+cd Svayam-Ed-Tech-Chatbot
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 2. Install Frontend Dependencies
+```sh
+npm install
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
+### 3. Install Backend Dependencies
+```sh
+pip install -r requirements.txt
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### 4. Environment Variables
+Create a `.env` file in the project root with the following (update values as needed):
+```
+DATABASE_URL=postgresql://<user>:<password>@<host>/<db>?sslmode=require
+GOOGLE_API_KEY=your_google_gemini_api_key
+JWT_SECRET_KEY=your_secret_key
+```
+
+### 5. Database Migration
+Run the following to set up your database:
+```sh
+flask db upgrade
+```
+Or, if using Alembic directly:
+```sh
+alembic upgrade head
+```
+
+### 6. Running the Application
+#### Backend (Flask)
+```sh
+python run.py
+```
+Or for production (e.g., with Gunicorn):
+```sh
+gunicorn wsgi:app
+```
+
+#### Frontend (Vite)
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The frontend will be available at `http://localhost:5173` by default.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## API Usage
+- All API endpoints are prefixed with `/api`.
+- Main chat endpoint: `POST /api/chat` (requires JWT authentication)
+- Chat history: `GET /api/chat/history`
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/c4a9cdc7-0953-4e4e-b4e3-df96ea3bde75) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Deployment
+This project is ready for deployment on Vercel. The `vercel.json` configures both the frontend and backend. Push your code to a Git provider and connect the repo to Vercel.
 
 ## Database Migration to Neon Postgres
 
-### 1. Set the DATABASE_URL environment variable
+1. **Set the DATABASE_URL environment variable**
+   - For local development, add to `.env`.
+   - For Vercel, set in Project Settings > Environment Variables.
 
-For local development and deployment (e.g., Vercel), set the following environment variable:
+2. **Migrate your local Postgres data to Neon**
+   - Dump your local database:
+     ```sh
+     pg_dump --dbname=postgresql://<local_user>:<local_password>@localhost/<local_db> --format=custom --file=local_db.dump
+     ```
+   - Restore to Neon:
+     ```sh
+     pg_restore --no-owner --no-privileges --dbname="<your_neon_database_url>" local_db.dump
+     ```
 
-```
-DATABASE_URL=postgresql://neondb_owner:npg_YS3CWp5bKasy@ep-twilight-darkness-a4dfd89u-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require
-```
+3. **Run Alembic Migrations**
+   ```sh
+   flask db upgrade
+   # or
+   alembic upgrade head
+   ```
 
-- For local development, you can add this line to a `.env` file in the project root.
-- For Vercel, add this variable in the Vercel dashboard under Project Settings > Environment Variables.
+## Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-### 2. Migrate your local Postgres data to Neon
-
-**A. Dump your local database:**
-
-```
-pg_dump --dbname=postgresql://<local_user>:<local_password>@localhost/<local_db> --format=custom --file=local_db.dump
-```
-
-**B. Restore to Neon:**
-
-```
-pg_restore --no-owner --no-privileges --dbname="postgresql://neondb_owner:npg_YS3CWp5bKasy@ep-twilight-darkness-a4dfd89u-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require" local_db.dump
-```
-
-Replace `<local_user>`, `<local_password>`, and `<local_db>` with your local database credentials.
-
-### 3. Alembic Migrations
-
-Alembic is now configured to use the Neon DB. To run migrations:
-
-```
-flask db upgrade
-```
-
-or (if using Alembic directly):
-
-```
-alembic upgrade head
-```
+## License
+This project is licensed under the MIT License.
